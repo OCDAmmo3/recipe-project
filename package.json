@@ -1,0 +1,29 @@
+{
+  "name": "recipe-project",
+  "version": "1.0.0",
+  "description": "301 Project Recipe Saving App",
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "pg": "^7.12.1",
+    "superagent": "^5.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OCDAmmo3/recipe-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OCDAmmo3/recipe-project/issues"
+  },
+  "homepage": "https://github.com/OCDAmmo3/recipe-project#readme"
+}
