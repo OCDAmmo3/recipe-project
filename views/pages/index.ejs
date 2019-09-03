@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main>
+      <h2 id="pageTitle">Search</h2>
+      <form id="search-form" action="/search" method="post">
+        <input class="textInput" type="text" name="search" placeholder="Search for Recipe" required>
+        <fieldset class="hidden expanded">
+          <h4>Calories Per Serving</h4>
+          <input type="range" name="calories" min="0" max="2000" step="50">
+          <% <!--JON PLEASE PUT ARRAY OF TYPES OF DIETS HERE WHEN YOU GET IT-->.forEach(diet => { %>
+            <input type="checkbox" id="">
+        </fieldset>
+        <button type="submit">Search</button>
+      </form>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>

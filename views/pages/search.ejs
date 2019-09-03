@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main>
+      <h2 id="pageTitle">Search Results</h2>
+      <% searchResults.forEach(result => { %>
+        <a href="/recipe/<%= result.recipe_id %>"><section recipe_id="<%= result.recipe_id %>" class="search_recipe">
+          <img src="<%= result.image_url %>"/>
+          <h3> <%= result.name %> </h3> 
+          <h5> <%= result.time  %> </h5>
+          <p> <%= result.servings  %> </p>
+          <button class="selectButton">More Details</button>
+          
+        </section></a>
+      <% }) %>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="/js/app.js"></script>
+  </body>
+</html>
