@@ -61,9 +61,10 @@ function Recipe(data, id) {
   this.servings = data.servings;
   this.rating = data.spoonacularScore;
   this.source = data.sourceUrl;
-  this.ingedients = data.extendedIngredients;
-  this.steps = data.analyzedInstructions.steps;
+  this.ingredients = data.extendedIngredients;
+  this.steps = data.analyzedInstructions[0].steps;
   this.timeStamp = timeStamp();
+
 }
 
 //Functions
@@ -90,8 +91,11 @@ function getRecipe(req, res) {
   let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
 
   superagent.get(url)
-    .then(recipe => new Recipe(recipe.body, req.params.id))
+    .then(recipe => {
+      return new Recipe(recipe.body[0], req.params.id)
+    })
     .then(result => {
+      console.log(result);
       res.render('pages/recipe_details', {details: result});
     })
     .catch(error => handleError(error, res));
