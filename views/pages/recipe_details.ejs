@@ -3,19 +3,23 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/header.ejs') %>
-    <h2><%= Recipe.name %></h2>
-    <h4>Ready In: <%= Recipe.time %></h4>
-    <h4>Serves: <%= Recipe.servings %></h4>
-    <section id="recipe-instructions">
+    <h2><%= details.name %></h2>
+    <img src="<%= details.image %>"></img>
+    <div id="details">
+      <h4>Ready In: <%= details.time %> minutes</h4>
+      <h4>Serves: <%= details.servings %></h4>
+    </div>
+    <section id="recipe-ingredients">
       <h4>Ingredients:</h4>
-      <% Recipe.ingredients.forEach(ingr => { %>
-        <h5><%= `${ingr.measures.us.amount} ${ingr.measures.us.unitShort} (${ingr.measures.metric.amount} ${ingr.measures.metric.amount}) ${ingr.name}` %></h5>
+      <% details.ingredients.forEach(ingr => { %>
+        <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %> (<%= ingr.measures.metric.amount %> <%= ingr.measures.metric.amount %>) <%= ingr.name %></h5>
       <% }) %>
+    </section>
+    <section id="recipe-instructions">
       <h4>Preparation Instructions:</h4>
-      <% Recipe.steps.forEach(step => { %>
-        <% let stepCount = 1; %>
-        <h5><%= `Step ${stepCount}` %></h5>
-        <p><%= step %></p>
+      <% details.steps.forEach(step => { %>
+        <h5>Step <%= step.number %></h5>
+        <p><%= step.step %></p>
       <% }) %>
     </section>
   </body>
