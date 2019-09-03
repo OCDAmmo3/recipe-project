@@ -91,7 +91,7 @@ function getRecipe(req, res) {
   superagent.get(url)
     .then(recipe => new Recipe(recipe.body, req.params.id))
     .then(result => {
-      res.render('pages/recipe_details', {details: result})
+      res.render('pages/recipe_details', {details: result});
     })
     .catch(error => handleError(error, res));
 
