@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <h2><%= Recipe.name %></h2>
+    <h4>Ready In: <%= Recipe.time %></h4>
+    <h4>Serves: <%= Recipe.servings %></h4>
+    <section id="recipe-instructions">
+      <h4>Ingredients:</h4>
+      <% Recipe.ingredients.forEach(ingr => { %>
+        <h5><%= `${ingr.measures.us.amount} ${ingr.measures.us.unitShort} (${ingr.measures.metric.amount} ${ingr.measures.metric.amount}) ${ingr.name}` %></h5>
+      <% }) %>
+      <h4>Preparation Instructions:</h4>
+      <% Recipe.steps.forEach(step => { %>
+        <% let stepCount = 1; %>
+        <h5><%= `Step ${stepCount}` %></h5>
+        <p><%= step %></p>
+      <% }) %>
+    </section>
+  </body>
+</html>

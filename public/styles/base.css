@@ -1,0 +1,17 @@
+/* font-family: 'Nanum Pen Script', cursive;  INGREDIENTS
+font-family: 'Barriecito', cursive;  HEADER
+font-family: 'Tinos', serif;  TEXT CONTENT */
+
+body {
+  background-color: navajowhite;
+  color: grey;
+  font-family: 'Tinos', serif;
+}
+
+h1 {
+  font-family: 'Barriecito', cursive;
+}
+
+.ingredients {
+  font-family: 'Nanum Pen Script', cursive;
+}
