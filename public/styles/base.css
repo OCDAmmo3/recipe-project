@@ -3,13 +3,28 @@ font-family: 'Barriecito', cursive;  HEADER
 font-family: 'Tinos', serif;  TEXT CONTENT */
 
 body {
-  background-color: navajowhite;
-  color: grey;
+  background-color: #ffd285;
+  color: white;
   font-family: 'Tinos', serif;
+  font-size: 20px;
+}
+
+header {
+  background-color: #ffbc47;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
 }
 
 h1 {
   font-family: 'Barriecito', cursive;
+  font-size: 4rem;
 }
 
 .ingredients {

@@ -29,6 +29,9 @@ app.post('/search', createSearch);
 app.get('/recipe/:id', getRecipe);
 app.post('/recipe/:id', saveRecipe);
 app.get('/saved', getSaved);
+app.get('/about', (req, res) => {
+  res.render('pages/about');
+});
 
 function User(username) {
   this.username = username;
