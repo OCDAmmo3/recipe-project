@@ -1,8 +1,7 @@
 'use strict';
 
-$(".hidden").hide();
+$('.hiddennav').hide();
 
-$("#hamburgerbutton").click(function() {
-  $(".hidden").show();
-  $("hamburgerbutton").hide();
+$('#hamburgerbutton').click(function() {
+  $('.hiddennav').toggle();
 });

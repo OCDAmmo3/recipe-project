@@ -1,0 +1,18 @@
+#hamburgerbutton {
+  width: 30px;
+  height: 30px;
+  align-self: flex-end;
+}
+
+a {
+  text-decoration: none;
+  color: seashell;
+}
+
+a:hover {
+  color: #c4edde;
+}
+
+#searchButton {
+  width: 100%;
+}

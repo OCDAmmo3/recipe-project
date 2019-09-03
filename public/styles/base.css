@@ -2,15 +2,19 @@
 font-family: 'Barriecito', cursive;  HEADER
 font-family: 'Tinos', serif;  TEXT CONTENT */
 
+/*
+#384259, #f73859, #7ac7c4, #c4edde
+*/
+
 body {
-  background-color: #ffd285;
-  color: white;
+  background-color: #c4edde;
+  color: seashell;
   font-family: 'Tinos', serif;
   font-size: 20px;
 }
 
 header {
-  background-color: #ffbc47;
+  background-color: #384259;
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -18,8 +22,10 @@ header {
 
 footer {
   position: fixed;
-  bottom: 10px;
-  left: 10px;
+  padding: 10px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgba(247, 56, 89, .8);
 }
 
 h1 {
@@ -29,4 +35,19 @@ h1 {
 
 .ingredients {
   font-family: 'Nanum Pen Script', cursive;
+}
+
+main {
+  text-align: center;
+  box-sizing: border-box;
+  width: 90%;
+  left: 5%;
+  position: fixed;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  background-color: #7ac7c4;
+  padding-top: 15px;
 }
