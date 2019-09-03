@@ -3,13 +3,13 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/header.ejs') %>
-    <main>
+    <main id="searchPage">
       <h2 id="pageTitle">Search</h2>
       <form id="search-form" action="/search" method="post">
         <input class="textInput" type="text" name="search" placeholder="Search for Recipe" required>
         <fieldset class="hidden expanded">
           <h4>Calories Per Serving</h4>
-          <input type="range" name="calories" min="0" max="2000" step="50">
+          <input id="calRange" type="range" name="calories" min="0" max="2000" step="50">
         </fieldset>
         <button id="searchButton" type="submit">Search</button>
       </form>

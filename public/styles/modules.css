@@ -1,7 +1,14 @@
+#subHead {
+  margin-left: 15px;
+}
+
 #hamburgerbutton {
   width: 30px;
   height: 30px;
-  align-self: flex-end;
+  align-self: center;
+  margin-right: 15px;
+  background-color: rgba(247, 56, 89, .7);
+  box-shadow: 0px 0px 3px #c4edde;
 }
 
 a {
@@ -14,5 +21,29 @@ a:hover {
 }
 
 #searchButton {
+  background-color: rgba(247, 56, 89, .8);
+  padding: 5px;
+}
+
+#calRange {
+  box-sizing: border-box;
+}
+
+#searchButton, #calRange {
   width: 100%;
+}
+
+.fas.fa-bars.fa-lg {
+  color: seashell;
+}
+
+input {
+  font-family: inherit;
+  font-size: 1rem;
+  text-align: center;
+  padding: 3px;
+}
+
+#searchPage * {
+  margin-top: 2px;
 }
