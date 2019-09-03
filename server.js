@@ -63,6 +63,8 @@ function Recipe(data, id) {
   this.source = data.sourceUrl;
   this.ingredients = data.extendedIngredients;
   this.steps = data.analyzedInstructions[0].steps;
+  this.timeStamp = timeStamp();
+
 }
 
 //Functions
@@ -70,9 +72,9 @@ function handleError(error, response) {
   response.status(error.status || 500).send(error.message);
 }
 
-// Recipe.prototype.timeStamp {
-  
-// }
+Recipe.prototype.timeStamp = function() {
+  return new Date(timeInMilliseconds).toString().slice(0, 15);
+};
 
 function createSearch(req, res) {
   let url = `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
@@ -102,8 +104,8 @@ function getRecipe(req, res) {
 
 function saveRecipe(req, res) {
   let {recipe_id, timestamp} = req.body;
-  let SQL = 'INSERT INTO recipes(recipe_id, timestamp) VALUES ($1, $2) RETURNING id;';
-  let values = [recipe_id, timestamp];
+  let SQL = 'INSERT INTO recipes(recipe_id, timestamp, username) VALUES ($1, $2, $3) RETURNING id;';
+  let values = [recipe_id, timestamp, username];
 
   client.query(SQL, values)
     .then(result => res.redirect(`/pages/search/${result.rows[0].id}`))
@@ -114,8 +116,9 @@ function saveRecipe(req, res) {
 function getSaved(req, res) {
   let SQL = 'SELECT recipe_id FROM recipes ORDER BY timestamp;';
   let recipeIds = client.query(SQL);
-
   let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${process.env.API_KEY}`;
+
+  res.render()
 }
 
 app.listen(PORT, () => console.log(`I know that you came to party baby, baby, baby, baby on port: ${PORT}`));
