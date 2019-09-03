@@ -1,0 +1,11 @@
+nav ul {
+  float: right;
+  text-align: center;
+  width: 35%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: rgba(56, 66, 89, .5);
+  padding: 5px;
+}

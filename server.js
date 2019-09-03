@@ -29,6 +29,9 @@ app.post('/search', createSearch);
 app.get('/recipe/:id', getRecipe);
 app.post('/recipe/:id', saveRecipe);
 app.get('/saved', getSaved);
+app.get('/about', (req, res) => {
+  res.render('pages/about');
+});
 
 function User(username) {
   this.username = username;
@@ -77,7 +80,7 @@ Recipe.prototype.timeStamp = function() {
 };
 
 function createSearch(req, res) {
-  let url = `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
+  let url =// `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
 
   superagent.get(url)
     .then(searchResults => searchResults.body.results.map(result => new Result(result)))
@@ -88,7 +91,7 @@ function createSearch(req, res) {
 }
 
 function getRecipe(req, res) {
-  let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
+  let url =// `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
 
   superagent.get(url)
     .then(recipe => {
@@ -116,7 +119,7 @@ function saveRecipe(req, res) {
 function getSaved(req, res) {
   let SQL = 'SELECT recipe_id FROM recipes ORDER BY timestamp;';
   let recipeIds = client.query(SQL);
-  let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${process.env.API_KEY}`;
+  let url =// `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${process.env.API_KEY}`;
 
   res.render()
 }
