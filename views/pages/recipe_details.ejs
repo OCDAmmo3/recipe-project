@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('../partials/head.ejs') %>
-  <body>
-    <%- include('../partials/header.ejs') %>
-    <main id = "detailsMain">
+<%- include('../partials/head.ejs') %>
+<body>
+  <%- include('../partials/header.ejs') %>
+  <main id="detailsMain">
     <h2><%= details.name %></h2>
     <img src="<%= details.image %>"></img>
     <div id="details">
@@ -13,20 +14,25 @@
     <section id="recipe-ingredients">
       <h4>Ingredients:</h4>
       <% details.ingredients.forEach(ingr => { %>
-        <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %> (<%= ingr.measures.metric.amount %> <%= ingr.measures.metric.amount %>) <%= ingr.name %></h5>
+      <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %>
+        <%if(ingr.measures.metric.amount !== ingr.measures.us.amount){ %>(<%= ingr.measures.metric.amount %>
+        <%= ingr.measures.metric.unitShort %>)<% } %> <%= ingr.name %></h5>
       <% }) %>
     </section>
     <section id="recipe-instructions">
       <h4>Preparation Instructions:</h4>
       <% details.steps.forEach(step => { %>
-        <h5>Step <%= step.number %></h5>
+      <div class="steps">
+        <h5>Step <%= step.number %>:</h5>
         <p><%= step.step %></p>
+      </div>
       <% }) %>
     </section>
-    </main>
-    <%- include('../partials/footer.ejs') %>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="/js/app.js"></script>
-  
-  </body>
+  </main>
+  <%- include('../partials/footer.ejs') %>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="/js/app.js"></script>
+</body>
+
 </html>

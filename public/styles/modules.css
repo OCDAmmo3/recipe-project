@@ -1,3 +1,4 @@
+
 #subHead {
   margin-left: 15px;
 }
@@ -48,6 +49,7 @@ input {
 #searchPage * {
   margin-top: 2px;
 }
+
 #results{
   margin: 30px;
 }
@@ -66,7 +68,48 @@ button{
   padding: 5px;
   color: white;
 }
+
 #pageTitle{
   font-size: 1.8rem;
 }
 
+#recipe-ingredients {
+  padding: 10px 15px 5px 50px;
+  line-height: 1.08;
+  font-family: 'Nanum Brush Script', cursive;
+  font-size: 1.4rem;
+  color: dimgray;
+  background-image: url('../assets/images/paper.PNG');
+  border: solid burlywood 5px;
+  border-radius: 5px;
+  margin: 15px;
+}
+
+#recipe-instructions {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, .12);
+  margin: 15px;
+}
+
+#recipe-instructions h4 {
+  padding: 5px;
+  font-size: 1.6rem;
+}
+
+.steps {
+  padding: 5px;
+  border-bottom: solid white 1px;
+}
+
+.steps:last-of-type {
+  border: none;
+}
+
+.steps h5 {
+  margin-bottom: 5px;
+}
+
+#detailsMain h2 {
+  padding: 15px;
+  text-align: center;
+}

@@ -1,3 +1,4 @@
+
 nav ul {
   text-align: center;
   position: fixed;
@@ -16,10 +17,6 @@ button {
   border: none;
 }
 
-#resultsPage {
-  margin-bottom: 75px;
-}
-
 main {
   text-align: center;
   box-sizing: border-box;
@@ -34,10 +31,13 @@ main {
   padding-top: 15px;
   padding-bottom: 15px;
   border-radius: 5px;
+  margin-bottom: 75px;
 }
+
 #results{
   line-height: 1.4;
 }
-#detailsMain{
 
+#detailsMain{
+  text-align: left;
 }
