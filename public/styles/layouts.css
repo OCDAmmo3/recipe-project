@@ -35,3 +35,6 @@ main {
   padding-bottom: 15px;
   border-radius: 5px;
 }
+#results{
+  line-height: 1.4;
+}

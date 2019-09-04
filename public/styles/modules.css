@@ -13,7 +13,7 @@
 
 a {
   text-decoration: none;
-  color: black;
+  color: seashell;
 }
 
 a:hover {
@@ -47,4 +47,24 @@ input {
 
 #searchPage * {
   margin-top: 2px;
+}
+#results{
+  margin: 30px;
+}
+section img{
+  margin: 30px auto;
+  -webkit-box-shadow: 0px 7px 9px 6px rgba(0,0,0,0.56);
+  -moz-box-shadow: 0px 7px 9px 6px rgba(0,0,0,0.56);
+  box-shadow: 0px 7px 9px 6px rgba(0,0,0,0.56);
+  border-radius: 5px;
+  max-width: 312px;
+  max-height: 231px;
+}
+button{
+  background-color: rgba(247, 56, 89, .8);
+  padding: 5px;
+  color: white;
+}
+#pageTitle{
+  font-size: 1.8rem;
 }
