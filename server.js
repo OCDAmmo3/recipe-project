@@ -22,6 +22,7 @@ app.use(session({secret: 'David smirks to himself'}));
 
 
 //Routes
+app.use(getJoke);
 app.get('/', (req, res) => {
   res.render('pages/index');
 });
@@ -81,6 +82,17 @@ function Recipe(data, id) {
 }
 
 //Functions
+function getJoke(req, res, next) {
+  let url = `https://api.spoonacular.com/food/jokes/random?apiKey=${process.env.API_Key}`
+
+  superagent.get(url)
+    .then( response => {
+      res.locals.joke = response.body.text;
+      next();
+    })
+    .catch(next);
+};
+
 function handleError(error, response) {
   response.status(error.status || 500).send(error.message);
 }
