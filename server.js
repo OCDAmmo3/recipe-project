@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
 app.post('/search', createSearch);
 app.get('/recipe/:id', getRecipe);
 app.post('/recipe/:id', saveRecipe);
+app.get('/random', randomRecipe);
 app.get('/saved', getSaved);
 app.get('/about', (req, res) => {
   res.render('pages/about');
@@ -185,5 +186,14 @@ function register(req, res) {
   }
 }
 
+function randomRecipe(req, res) {
+  let url = `https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}`;
 
+  superagent.get(url).then(recipe => {
+     console.log(recipe.body);
+      let randomRecipe = new Recipe(recipe.body.recipes[0])
+      res.render('pages/recipe_details', {details: randomRecipe});
+  }).catch(error => handleError(error));
+     
+  };
 app.listen(PORT, () => console.log(`I know that you came to party baby, baby, baby, baby on port: ${PORT}`));
