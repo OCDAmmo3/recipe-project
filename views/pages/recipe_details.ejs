@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <%- include('../partials/head.ejs') %>
+
 <body>
   <%- include('../partials/header.ejs') %>
   <main id="detailsMain">
@@ -23,7 +23,7 @@
       <h4>Preparation Instructions:</h4>
       <% details.steps.forEach(step => { %>
       <div class="steps">
-        <h5>Step <%= step.number %>:</h5>
+        <%if(details.steps.number !== 0) { %><h5>Step <%= step.number %>:</h5><% } %>
         <p><%= step.step %></p>
       </div>
       <% }) %>

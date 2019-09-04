@@ -4,6 +4,7 @@
   "description": "301 Project Recipe Saving App",
   "main": "server.js",
   "dependencies": {
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "ejs": "^2.7.1",
