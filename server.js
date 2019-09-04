@@ -84,7 +84,7 @@ function Recipe(data, id) {
 
 //Functions
 function getJoke(req, res, next) {
-  let url = `https://api.spoonacular.com/food/jokes/random?apiKey=${process.env.API_Key}`
+  let url = `https://api.spoonacular.com/food/jokes/random?apiKey=${process.env.API_KEY}`
 
   superagent.get(url)
     .then( response => {
