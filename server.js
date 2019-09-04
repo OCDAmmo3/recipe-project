@@ -42,7 +42,7 @@ app.get('/signup', (req, res) =>{
 });
 app.post('/signup', register);
 
-function User(username, password) {
+function User(username) {
   this.username = username;
 }
 
@@ -70,7 +70,7 @@ function Recipe(data, id) {
 
 //Functions
 function getJoke(req, res, next) {
-  let url = `https://api.spoonacular.com/food/jokes/random?apiKey=${process.env.API_Key}`
+  let url = `https://api.spoonacular.com/food/jokes/random?apiKey=${process.env.API_KEY}`;
 
   superagent.get(url)
     .then( response => {
@@ -78,15 +78,15 @@ function getJoke(req, res, next) {
       next();
     })
     .catch(next);
-};
+}
 
 function handleError(error, response) {
   response.status(error.status || 500).send(error.message);
 }
 
-Recipe.prototype.timeStamp = function() {
-  return new Date(timeInMilliseconds).toString().slice(0, 15);
-};
+// Recipe.prototype.timeStamp = function() {
+//   return new Date(timeInMilliseconds).toString().slice(0, 15);
+// };
 
 function createSearch(req, res) {
   let url = `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
