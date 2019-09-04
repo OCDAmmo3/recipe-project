@@ -128,7 +128,7 @@ function getSaved(req, res) {
   let recipeIds = client.query(SQL);
   let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${process.env.API_KEY}`;
 
-  res.render()
+  res.render('pages/saved')
 }
 
 //Functions handling user login/registration
