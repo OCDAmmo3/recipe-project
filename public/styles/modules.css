@@ -51,6 +51,7 @@ input {
 #results{
   margin: 30px;
 }
+
 img{
   margin: 30px auto;
   -webkit-box-shadow: 0px 7px 9px 6px rgba(0,0,0,0.56);
@@ -68,3 +69,4 @@ button{
 #pageTitle{
   font-size: 1.8rem;
 }
+
