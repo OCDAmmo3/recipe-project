@@ -75,10 +75,10 @@ button{
 
 #recipe-ingredients {
   padding: 10px 15px 5px 50px;
-  line-height: 1.08;
-  font-family: 'Nanum Brush Script', cursive;
-  font-size: 1.4rem;
-  color: dimgray;
+  line-height: .9;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 1.7rem;
+  color: black;
   background-image: url('../assets/images/paper.PNG');
   border: solid burlywood 5px;
   border-radius: 5px;
@@ -87,7 +87,7 @@ button{
 
 #recipe-instructions {
   padding: 15px;
-  background-color: rgba(0, 0, 0, .12);
+  background-color: rgba(0, 0, 0, .28);
   margin: 15px;
 }
 
@@ -98,6 +98,7 @@ button{
 
 .steps {
   padding: 5px;
+  margin: 10px 0px 5px 0px;
   border-bottom: solid white 1px;
 }
 
@@ -106,7 +107,12 @@ button{
 }
 
 .steps h5 {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+}
+
+.steps p {
+  line-height: 1.2;
 }
 
 #detailsMain h2 {
