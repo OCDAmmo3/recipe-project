@@ -6,6 +6,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const superagent = require('superagent');
+const session = require('express-session')
 const pg = require('pg');
 
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -15,10 +16,9 @@ const app = express();
 
 app.use(cors());
 app.set('view engine', 'ejs');
-
-// Application Middleware
 app.use(express.urlencoded({extended:true,}));
 app.use(express.static('public'));
+app.use(session({secret: 'David smirks to himself'}));
 
 
 //Routes
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 app.post('/search', createSearch);
 app.get('/recipe/:id', getRecipe);
 app.post('/recipe/:id', saveRecipe);
-app.get('/saved', getSaved);
+app.get('/saved', checkSignIn, getSaved);
 app.get('/about', (req, res) => {
   res.render('pages/about');
 });
@@ -37,16 +37,19 @@ app.get('/login', (req, res) => {
 });
 app.post('login', authenticate);
 app.get('/signup', (req, res) =>{
-  res.render('pages/signup');
+  res.render('pages/signup', {'message': ''});
 });
+app.post('/signup', register);
 
-function User(username) {
+function User(username, password) {
   this.username = username;
+  this.password = password;
 }
 
 User.prototype.save = function() {
-  const SQL = `INSERT INTO users (username) VALUES($1) ON CONFLICT DO NOTHING RETURNING id;`;
-  const VALUES = [this.username];
+  const SQL = `INSERT INTO users (username, password) VALUES($1, $2) ON CONFLICT DO NOTHING RETURNING id;`;
+  const VALUES = [this.username, this.password];
+
 
   return client.query(SQL, VALUES)
     .then(result => {
@@ -72,7 +75,7 @@ function Recipe(data, id) {
   this.rating = data.spoonacularScore;
   this.source = data.sourceUrl;
   this.ingredients = data.extendedIngredients;
-  this.steps = data.analyzedInstructions[0].steps;
+  this.steps = data.hasOwnProperty('steps') ? data.analyzedInstructions[0].steps : [{'number': 0, 'step': 'Instructions Unavailable'}];
   // this.timeStamp = timeStamp();
 
 }
@@ -132,12 +135,49 @@ function getSaved(req, res) {
 }
 
 //Functions handling user login/registration
+function checkSignIn(req, res){
+  if(req.session.user){
+    next();     //If session exists, proceed to page
+  } else {
+    var err = new Error("Not logged in!");
+    console.log(req.session.user);
+    next(err);  //Error, trying to access unauthorized page!
+  }
+}
+
 function authenticate(req, res) {
 
 }
 
 function register(req, res) {
-  
+  if(!req.body.username || !req.body.password){
+    res.status('400');
+    res.send('Invalid details!');
+  } else {
+    console.log(req.body.username);
+    const SELECT = `SELECT COUNT(username) FROM users WHERE username = '${req.body.username}';`;
+    const INSERT = 'INSERT INTO users (username, password) VALUES ($1, $2) ON CONFLICT DO NOTHING RETURNING id;';
+    console.log('Here 1');
+    client.query(SELECT)
+      .then(result => {
+        console.log(`Result: ${result}`);
+        if (result.rows[0].count > 0) {
+          console.log('Already Created');
+          res.render('pages/signup-error', {message: 'User Already Exists! Login or register with a different username.'});
+        }
+        else {
+          console.log('Creating');
+          let newUser = new User(req.body.username, req.body.passsword);
+          let VALUES = [newUser.username, newUser.passsword];
+          client.query(INSERT, VALUES)
+            .then(() =>{
+              req.session.user = newUser;
+              res.redirect('/saved');
+            });
+        }
+      });
+  }
 }
+
 
 app.listen(PORT, () => console.log(`I know that you came to party baby, baby, baby, baby on port: ${PORT}`));
