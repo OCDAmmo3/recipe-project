@@ -6,11 +6,11 @@
     <main id="resultsPage">
       <h2 id="pageTitle">Search Results</h2>
       <% searchResults.forEach(result => { %>
-        <a href="/recipe/<%= result.recipe_id %>"><section recipe_id="<%= result.recipe_id %>" class="search_recipe">
+        <a href="/recipe/<%= result.recipe_id %>"><section id= "results" recipe_id="<%= result.recipe_id %>" class="search_recipe">
           <img src="<%= result.image_url %>"/>
           <h3> <%= result.name %> </h3> 
-          <h5> <%= result.time  %> </h5>
-          <p> <%= result.servings  %> </p>
+          <h5> Cook Time: <%= result.time  %> minutes</h5>
+          <p> Serves <%= result.servings  %> </p>
           <button class="selectButton">More Details</button>
           
         </section></a>
