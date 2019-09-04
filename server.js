@@ -32,6 +32,13 @@ app.get('/saved', getSaved);
 app.get('/about', (req, res) => {
   res.render('pages/about');
 });
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+app.post('login', authenticate);
+app.get('/signup', (req, res) =>{
+  res.render('pages/signup');
+});
 
 function User(username) {
   this.username = username;
@@ -50,7 +57,7 @@ User.prototype.save = function() {
 
 function Result(result) {
   this.recipe_id = result.id;
-  this.image_url = `https://spoonacular.com/recipeImages/${result.image}`;
+  this.image_url = `https://spoonacular.com/recipeImages/${result.id}-312x231.jpg`;
   this.name = result.title;
   this.time = result.readyInMinutes;
   this.servings = result.servings;
@@ -66,7 +73,7 @@ function Recipe(data, id) {
   this.source = data.sourceUrl;
   this.ingredients = data.extendedIngredients;
   this.steps = data.analyzedInstructions[0].steps;
-  this.timeStamp = timeStamp();
+  // this.timeStamp = timeStamp();
 
 }
 
@@ -80,7 +87,7 @@ Recipe.prototype.timeStamp = function() {
 };
 
 function createSearch(req, res) {
-  let url =// `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
+  let url = `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
 
   superagent.get(url)
     .then(searchResults => searchResults.body.results.map(result => new Result(result)))
@@ -91,7 +98,7 @@ function createSearch(req, res) {
 }
 
 function getRecipe(req, res) {
-  let url =// `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
+  let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
 
   superagent.get(url)
     .then(recipe => {
@@ -119,9 +126,18 @@ function saveRecipe(req, res) {
 function getSaved(req, res) {
   let SQL = 'SELECT recipe_id FROM recipes ORDER BY timestamp;';
   let recipeIds = client.query(SQL);
-  let url =// `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${process.env.API_KEY}`;
+  let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${process.env.API_KEY}`;
 
   res.render()
+}
+
+//Functions handling user login/registration
+function authenticate(req, res) {
+
+}
+
+function register(req, res) {
+  
 }
 
 app.listen(PORT, () => console.log(`I know that you came to party baby, baby, baby, baby on port: ${PORT}`));
