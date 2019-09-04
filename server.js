@@ -16,7 +16,7 @@ const app = express();
 
 app.use(cors());
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended:true,}));
+app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
 app.use(session({secret: 'David smirks to himself'}));
 
@@ -75,7 +75,7 @@ function Recipe(data, id) {
   this.rating = data.spoonacularScore;
   this.source = data.sourceUrl;
   this.ingredients = data.extendedIngredients;
-  this.steps = data.hasOwnProperty('steps') ? data.analyzedInstructions[0].steps : [{'number': 0, 'step': 'Instructions Unavailable'}];
+  this.steps = data.analyzedInstructions[0] ? data.analyzedInstructions[0].steps : [{'number': 0, 'step': 'Instructions Unavailable'}];
   // this.timeStamp = timeStamp();
 
 }
@@ -105,10 +105,10 @@ function getRecipe(req, res) {
 
   superagent.get(url)
     .then(recipe => {
+      console.log(recipe.body[0].analyzedInstructions);
       return new Recipe(recipe.body[0], req.params.id)
     })
     .then(result => {
-      console.log(result);
       res.render('pages/recipe_details', {details: result});
     })
     .catch(error => handleError(error, res));
