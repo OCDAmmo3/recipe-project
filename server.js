@@ -6,19 +6,19 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const superagent = require('superagent');
-const session = require('express-session')
 const pg = require('pg');
+const cookieParser = require('cookie-parser');
 
 const client = new pg.Client(process.env.DATABASE_URL);
 const PORT = process.env.PORT || 3000;
 client.connect();
 const app = express();
 
+app.use(cookieParser());
 app.use(cors());
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
-app.use(session({secret: 'David smirks to himself'}));
 
 
 //Routes
@@ -29,14 +29,14 @@ app.get('/', (req, res) => {
 app.post('/search', createSearch);
 app.get('/recipe/:id', getRecipe);
 app.post('/recipe/:id', saveRecipe);
-app.get('/saved', checkSignIn, getSaved);
+app.get('/saved', getSaved);
 app.get('/about', (req, res) => {
   res.render('pages/about');
 });
 app.get('/login', (req, res) => {
   res.render('pages/login');
 });
-app.post('login', authenticate);
+app.post('/login', authenticate);
 app.get('/signup', (req, res) =>{
   res.render('pages/signup', {'message': ''});
 });
@@ -44,20 +44,7 @@ app.post('/signup', register);
 
 function User(username, password) {
   this.username = username;
-  this.password = password;
 }
-
-User.prototype.save = function() {
-  const SQL = `INSERT INTO users (username, password) VALUES($1, $2) ON CONFLICT DO NOTHING RETURNING id;`;
-  const VALUES = [this.username, this.password];
-
-
-  return client.query(SQL, VALUES)
-    .then(result => {
-      this.id = result.rows[0].id;
-      return this;
-    });
-};
 
 function Result(result) {
   this.recipe_id = result.id;
@@ -147,28 +134,36 @@ function getSaved(req, res) {
 }
 
 //Functions handling user login/registration
-function checkSignIn(req, res){
-  if(req.session.user){
-    next();     //If session exists, proceed to page
+
+
+function authenticate(req, res) {
+  if(!req.body.username){
+    res.render('pages/login', {message: 'Please enter both id and password'});
   } else {
-    var err = new Error("Not logged in!");
-    console.log(req.session.user);
-    next(err);  //Error, trying to access unauthorized page!
+    const SQL = `SELECT username, id FROM users WHERE username = '${req.body.username}';`;
+    client.query(SQL)
+      .then(userData => {
+        console.log(userData);
+        if(userData.rows[0].username === req.body.username){
+          console.log('User Exists');
+          res.cookie('userID', userData.rows[0].id).redirect('/saved');
+        }
+        else {
+          //User does not exist
+          res.render('/login', {message: 'Invalid credentials!'});
+        }
+      });
   }
 }
 
-function authenticate(req, res) {
-
-}
-
 function register(req, res) {
-  if(!req.body.username || !req.body.password){
+  if(!req.body.username){
     res.status('400');
     res.send('Invalid details!');
   } else {
     console.log(req.body.username);
     const SELECT = `SELECT COUNT(username) FROM users WHERE username = '${req.body.username}';`;
-    const INSERT = 'INSERT INTO users (username, password) VALUES ($1, $2) ON CONFLICT DO NOTHING RETURNING id;';
+    const INSERT = 'INSERT INTO users (username) VALUES ($1) ON CONFLICT DO NOTHING RETURNING id;';
     console.log('Here 1');
     client.query(SELECT)
       .then(result => {
@@ -179,12 +174,11 @@ function register(req, res) {
         }
         else {
           console.log('Creating');
-          let newUser = new User(req.body.username, req.body.passsword);
-          let VALUES = [newUser.username, newUser.passsword];
+          let newUser = new User(req.body.username);
+          let VALUES = [newUser.username];
           client.query(INSERT, VALUES)
             .then(() =>{
-              req.session.user = newUser;
-              res.redirect('/saved');
+              res.cookie('userID', result.rows[0].id).redirect('/saved');
             });
         }
       });

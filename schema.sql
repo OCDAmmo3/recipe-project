@@ -2,8 +2,7 @@ DROP TABLE IF EXISTS users, recipes;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  username VARCHAR(30),
-  password VARCHAR(20)
+  username VARCHAR(30)
 );
 
 CREATE TABLE recipes (
