@@ -1,8 +1,9 @@
 nav ul {
-  float: right;
   text-align: center;
+  position: fixed;
+  right: 0px;
   width: 35%;
-  height: 100%;
+  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -13,4 +14,24 @@ nav ul {
 button {
   border-radius: 3px;
   border: none;
+}
+
+#resultsPage {
+  margin-bottom: 75px;
+}
+
+main {
+  text-align: center;
+  box-sizing: border-box;
+  width: 90%;
+  margin-left: 5%;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  background-color: #7ac7c4;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 5px;
 }

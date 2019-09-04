@@ -3,7 +3,7 @@
   <%- include('../partials/head.ejs') %>
   <body>
     <%- include('../partials/header.ejs') %>
-    <main>
+    <main id="resultsPage">
       <h2 id="pageTitle">Search Results</h2>
       <% searchResults.forEach(result => { %>
         <a href="/recipe/<%= result.recipe_id %>"><section recipe_id="<%= result.recipe_id %>" class="search_recipe">
