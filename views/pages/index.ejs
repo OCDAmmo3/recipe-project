@@ -12,12 +12,13 @@
           <input id="calRange" type="range" name="calories" min="0" max="2000" step="50">
         </fieldset>
         <p>
-        
-        <label><input type="checkbox" name="dairyIntolerance" value="dairy Free" id="dairy" /> Dairy Free</label>
-        <label><input type="checkbox" name="glutenIntolerance" value="true" id="gluten"/> Gluten</label>
-        <label><input type="checkbox" name="paleoIntolerance" value="paleo" id="paleo" /> Paleo</label>
-        <label><input type="checkbox" name="vegetarianIntolerance" value="vegetarian" id="vegetarian" /> Vegetarian</label>
-        <label><input type="checkbox" name="veganIntolerance" value="vegan" id="vegan"/> Vegan</label>
+        <fieldset id="checks">
+          <label><input class="checks" type="checkbox" name="dairyIntolerance" value="dairy Free" id="dairy" /> Dairy Free</label>
+          <label><input class="checks" type="checkbox" name="glutenIntolerance" value="true" id="gluten"/> Gluten</label>
+          <label><input class="checks" type="checkbox" name="paleoIntolerance" value="paleo" id="paleo" /> Paleo</label>
+          <label><input class="checks" type="checkbox" name="vegetarianIntolerance" value="vegetarian" id="vegetarian" /> Vegetarian</label>
+          <label><input class="checks" type="checkbox" name="veganIntolerance" value="vegan" id="vegan"/> Vegan</label>
+        </fieldset>
         </p>
         <button id="searchButton" type="submit">Search</button>
       </form>
