@@ -68,8 +68,6 @@ function Result(result) {
   this.recipe_id = result.id;
   this.image_url = `https://spoonacular.com/recipeImages/${result.id}-312x231.jpg`;
   this.name = result.title;
-  this.time = result.readyInMinutes;
-  this.servings = result.servings;
 }
 
 function Recipe(data, id) {
@@ -113,6 +111,15 @@ function createSearch(req, res) {
   }
   if(req.body.paleoIntolerance){
     url = `${url}&diet=paleo`;
+  }
+  if(req.body.veganIntolerance){
+    url = `${url}&diet=vegan`;
+  }
+  if(req.body.vegetarianIntolerance){
+    url = `${url}&diet=vegetarian`;
+  }
+  if(req.body.pescatarianIntolerance){
+    url = `${url}&diet=pescatarian`;
   }
   superagent.get(url)
     .then(searchResults => searchResults.body.results.map(result => new Result(result)))
