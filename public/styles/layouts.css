@@ -57,3 +57,18 @@ main {
   text-align: left;
   padding: 15px;
 }
+
+#search-form {
+  width: 45%;
+}
+
+#checks {
+  width: 60%;
+  margin: 0 auto;
+  margin-bottom: 15px;
+}
+
+#checks label{
+  display: block;
+  text-align: left;
+}
