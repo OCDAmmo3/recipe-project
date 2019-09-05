@@ -10,6 +10,11 @@
     <a href="/"><li>Home</li></a>
     <a href="/saved"><li>Your Saved Recipes</li></a>
     <a href="/about"><li>About Us</li></a>
-    <a href="/login"><li>Login / Signup</li></a>
+    <% if(!cookie) { %>
+      <a href="/login"><li>Login / Signup</li></a>
+    <% } %>
+    <% if(cookie) { %>
+      <a href="/logout"><li>Logout</li></a>
+    <% } %>
   </ul>
 </nav>
