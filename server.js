@@ -129,6 +129,7 @@ function createSearch(req, res) {
 }
 
 function getRecipe(req, res) {
+  console.log('Here');
   let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
   let cookie = req.cookies.userID ? req.cookies.userID : '';
   let userID = parseInt(req.cookies.userID);
@@ -137,18 +138,23 @@ function getRecipe(req, res) {
 
   client.query(SQL)
     .then(result => {
+      console.log('Here1');
       recipeSaved = parseInt(result.rows[0].count);
     })
     .then(
       superagent.get(url)
         .then(recipe => {
+          console.log('Here2');
           return new Recipe(recipe.body[0], req.params.id);
         })
         .then(result => {
+          console.log(recipeSaved);
           if (recipeSaved > 0) {
+            console.log(result);
             res.render('pages/recipe_details', {details: result, 'cookie': cookie, saved: true});
           }
           else {
+            console.log(result);
             res.render('pages/recipe_details', {details: result, 'cookie': cookie, saved: false});
           }
         })
