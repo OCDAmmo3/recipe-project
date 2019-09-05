@@ -21,12 +21,6 @@ a:hover {
   color: #c4edde;
 }
 
-#searchButton {
-  background-color: rgba(247, 56, 89, .8);
-  padding: 5px;
-  color: white;
-}
-
 #calRange {
   box-sizing: border-box;
 }
@@ -63,10 +57,12 @@ img{
   max-width: 312px;
   max-height: 231px;
 }
-button{
+
+button {
   background-color: rgba(247, 56, 89, .8);
   padding: 5px;
   color: white;
+  width: 100%;
 }
 
 #pageTitle{

@@ -26,7 +26,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 130px;
   background-color: #7ac7c4;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -40,4 +40,19 @@ main {
 
 #detailsMain{
   text-align: left;
+}
+
+.aboutEach {
+  padding: 15px;
+  margin: 15px 0px 45px 0px;
+}
+
+.aboutEach h2 {
+  font-size: 2.5rem;
+  font-family: 'Sacramento', cursive;
+}
+
+.aboutEach p {
+  text-align: left;
+  padding: 15px;
 }
