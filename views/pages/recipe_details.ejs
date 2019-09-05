@@ -10,6 +10,7 @@
     <div id="details">
       <h4>Ready In: <%= details.time %> minutes</h4>
       <h4>Serves: <%= details.servings %></h4>
+      <a href="<% details.source %>" target="_blank"><h4>Original Recipe Site</h4></a>
       <form action="/recipe/<%= details.recipe_id %>" method="post">
         <input type="hidden" id="name" name="name" value="<%= details.name %>">
         <input type="hidden" id="image" name="image_url" value="<%= details.image %>">
@@ -30,7 +31,7 @@
       <h4>Preparation Instructions:</h4>
       <% details.steps.forEach(step => { %>
       <div class="steps">
-        <%if(details.steps.number !== 0) { %><h5>Step <%= step.number %>:</h5><% } %>
+        <%if(details.steps.number !== 0) { %><h5><%= step.number %></h5><% } %>
         <p><%= step.step %></p>
       </div>
       <% }) %>
