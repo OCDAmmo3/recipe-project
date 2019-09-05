@@ -10,7 +10,7 @@
     <div id="details">
       <h4>Ready In: <%= details.time %> minutes</h4>
       <h4>Serves: <%= details.servings %></h4>
-      <a href="<% details.source %>" target="_blank"><h4>Original Recipe Site</h4></a>
+      <a href="<%= details.source %>" target="_blank"><h4>Original Recipe Site</h4></a>
       <% if (!saved) { %>
         <form action="/recipe/<%= details.recipe_id %>" method="post">
           <input type="hidden" id="name" name="name" value="<%= details.name %>">
