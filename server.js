@@ -103,8 +103,17 @@ function handleError(error, response) {
 }
 
 function createSearch(req, res) {
-  let url = `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
-
+  let url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
+  console.log(req.body);
+  if(req.body.dairyIntolerance){
+     url = `${url}&excludeIngredients=dairy`;
+  }
+  if(req.body.glutenIntolerance){
+    url = `${url}&intolerances=gluten`;
+  }
+  if(req.body.paleoIntolerance){
+    url = `${url}&diet=paleo`;
+  }
   superagent.get(url)
     .then(searchResults => searchResults.body.results.map(result => new Result(result)))
     .then(results => {
@@ -112,7 +121,7 @@ function createSearch(req, res) {
       return res.render('pages/search', {searchResults: results, 'cookie': cookie});
     })
     .catch(error => handleError(error, res));
-}
+};
 
 function getRecipe(req, res) {
   console.log('Here');
