@@ -119,3 +119,7 @@ button{
   padding: 15px;
   text-align: center;
 }
+
+.shoppingListHead {
+  font-size: 3.5rem;
+}
