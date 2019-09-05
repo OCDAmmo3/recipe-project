@@ -10,6 +10,7 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "method-override": "^3.0.0",
     "nodemon": "^1.19.2",
     "pg": "^7.12.1",
     "superagent": "^5.1.0"

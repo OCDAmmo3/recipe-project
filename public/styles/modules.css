@@ -21,12 +21,6 @@ a:hover {
   color: #c4edde;
 }
 
-#searchButton {
-  background-color: rgba(247, 56, 89, .8);
-  padding: 5px;
-  color: white;
-}
-
 #calRange {
   box-sizing: border-box;
 }
@@ -68,6 +62,7 @@ button {
   background-color: rgba(247, 56, 89, .8);
   padding: 5px;
   color: white;
+  width: 100%;
 }
 
 input.submit {

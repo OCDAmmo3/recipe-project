@@ -5,17 +5,19 @@
     <%- include('../partials/header.ejs') %>
     <main id="searchPage">
       <h2 id="pageTitle">Search</h2>
-      <form id="search-form" action="/search" method="post">
-        <input class="textInput" type="text" name="search" placeholder="Search for Recipe" required>
-        <fieldset class="hidden expanded">
-          <h4>Calories Per Serving</h4>
-          <input id="calRange" type="range" name="calories" min="0" max="2000" step="50">
-        </fieldset>
-        <button id="searchButton" type="submit">Search</button>
-      </form>
-      <form action="/random" method="GET">
-        <button id="random" type="submit">Random Recipe!</button>
-      </form>
+      <section>
+        <form id="search-form" action="/search" method="post">
+          <input class="textInput" type="text" name="search" placeholder="Search for Recipe" required>
+          <fieldset class="hidden expanded">
+            <h4>Calories Per Serving</h4>
+            <input id="calRange" type="range" name="calories" min="0" max="2000" step="50">
+          </fieldset>
+          <button id="searchButton" type="submit">Search</button>
+        </form>
+        <form action="/random" method="GET">
+          <button id="random" type="submit">Random Recipe!</button>
+        </form>
+      </section>
     </main>
     <%- include('../partials/footer.ejs') %>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

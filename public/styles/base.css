@@ -1,6 +1,8 @@
 /* font-family: 'Nanum Pen Script', cursive;  INGREDIENTS
 font-family: 'Barriecito', cursive;  HEADER
-font-family: 'Tinos', serif;  TEXT CONTENT */
+font-family: 'Tinos', serif;  TEXT CONTENT 
+font-family: 'Sacramento', cursive;   ABOUT US NAMES
+*/
 
 /*
 #384259, #f73859, #7ac7c4, #c4edde
@@ -14,6 +16,9 @@ body {
 }
 
 header {
+  position: fixed;
+  top: 0px;
+  width: 100%;
   background-color: #384259;
   padding: 10px;
   display: flex;
