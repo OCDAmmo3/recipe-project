@@ -24,7 +24,8 @@ app.use(express.static('public'));
 //Routes
 app.use(getJoke);
 app.get('/', (req, res) => {
-  res.render('pages/index');
+  let cookie = req.cookies.userID ? req.cookies.userID : '';
+  res.render('pages/index', {'cookie': cookie});
 });
 app.post('/search', createSearch);
 app.get('/recipe/:id', getRecipe);
@@ -32,18 +33,25 @@ app.post('/recipe/:id', saveRecipe);
 app.get('/random', randomRecipe);
 app.get('/saved', getSaved);
 app.get('/about', (req, res) => {
-  res.render('pages/about');
+  let cookie = req.cookies.userID ? req.cookies.userID : '';
+  res.render('pages/about', {'cookie': cookie});
 });
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+  let cookie = req.cookies.userID ? req.cookies.userID : '';
+  res.render('pages/login', {'message': '', 'cookie': cookie});
 });
 app.post('/login', authenticate);
 app.get('/signup', (req, res) =>{
-  res.render('pages/signup', {'message': ''});
+  let cookie = req.cookies.userID ? req.cookies.userID : '';
+  res.render('pages/signup', {'message': '', 'cookie': cookie});
 });
 app.post('/signup', register);
+app.get('/logout', (req, res) => {
+  res.clearCookie('userID');
+  res.render('pages/login', {'message': 'You have been signed out', 'cookie': ''});
+});
 
-function User(username, password) {
+function User(username) {
   this.username = username;
 }
 
@@ -69,9 +77,19 @@ function Recipe(data, id) {
 
 }
 
+// function savedRecipe(data) {
+//   this.recipe_id = 1;
+//   this.image = `https://spoonacular.com/recipeImages/${result.id}-312x231.jpg`;
+//   this.name = 2;
+//   this.time = 3;
+//   this.servings = 4;
+//   this.timestamp = ;
+// }
+
 //Functions
 function getJoke(req, res, next) {
-  let url = `https://api.spoonacular.com/food/jokes/random?apiKey=${process.env.API_KEY}`
+  console.log('In Joke');
+  let url = `https://api.spoonacular.com/food/jokes/random?apiKey=${process.env.API_KEY}`;
 
   superagent.get(url)
     .then( response => {
@@ -79,15 +97,15 @@ function getJoke(req, res, next) {
       next();
     })
     .catch(next);
-};
+}
 
 function handleError(error, response) {
   response.status(error.status || 500).send(error.message);
 }
 
-Recipe.prototype.timeStamp = function() {
-  return new Date(timeInMilliseconds).toString().slice(0, 15);
-};
+// Recipe.prototype.timeStamp = function() {
+//   return new Date(timeInMilliseconds).toString().slice(0, 15);
+// };
 
 function createSearch(req, res) {
   let url = `https://api.spoonacular.com/recipes/search?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
@@ -95,7 +113,8 @@ function createSearch(req, res) {
   superagent.get(url)
     .then(searchResults => searchResults.body.results.map(result => new Result(result)))
     .then(results => {
-      return res.render('pages/search', {searchResults: results});
+      let cookie = req.cookies.userID ? req.cookies.userID : '';
+      return res.render('pages/search', {searchResults: results, 'cookie': cookie});
     })
     .catch(error => handleError(error, res));
 }
@@ -105,33 +124,55 @@ function getRecipe(req, res) {
 
   superagent.get(url)
     .then(recipe => {
-      console.log(recipe.body[0].analyzedInstructions);
-      return new Recipe(recipe.body[0], req.params.id)
+      return new Recipe(recipe.body[0], req.params.id);
     })
     .then(result => {
-      res.render('pages/recipe_details', {details: result});
+      let cookie = req.cookies.userID ? req.cookies.userID : '';
+      res.render('pages/recipe_details', {details: result, 'cookie': cookie});
     })
     .catch(error => handleError(error, res));
 
 }
 
 function saveRecipe(req, res) {
-  let {recipe_id, timestamp} = req.body;
-  let SQL = 'INSERT INTO recipes(recipe_id, timestamp, username) VALUES ($1, $2, $3) RETURNING id;';
-  let values = [recipe_id, timestamp, username];
+  console.log('Saving');
+  let {name, image, time, servings} = req.body;
+  let userID = parseInt(req.cookies.userID);
+
+  let SQL = 'INSERT INTO recipes(recipe_id, image, name, time, servings, user_id, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7);';
+  let values = [req.params.id, image, name, time, servings, userID, Date.now()];
 
   client.query(SQL, values)
-    .then(result => res.redirect(`/pages/search/${result.rows[0].id}`))
+    .then(() => {
+      res.redirect(`/saved`);
+    })
     .catch(error => handleError(error, res));
 
 }
 
 function getSaved(req, res) {
-  let SQL = 'SELECT recipe_id FROM recipes ORDER BY timestamp;';
-  let recipeIds = client.query(SQL);
-  let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${recipeIds}&apiKey=${process.env.API_KEY}`;
+  let userID = parseInt(req.cookies.userID);
+  let SQL = `SELECT recipe_id, image, name, time, servings FROM recipes WHERE user_id = ${userID} ORDER BY timestamp;`;
 
-  res.render('pages/saved');
+  if (!userID) {
+    let cookie = req.cookies.userID ? req.cookies.userID : '';
+    res.render('pages/login', {'message': 'Sign In to Save Books', 'cookie': cookie, 'savedResults': ''});
+  }
+  client.query(SQL)
+    .then(results => {
+      console.log(results);
+      if (results.rows[0]) {
+        console.log('True');
+
+        let cookie = req.cookies.userID ? req.cookies.userID : '';
+        res.render('pages/saved', {'savedResults': results.rows, 'cookie': cookie});
+      }
+      else {
+        console.log('No Results');
+        let cookie = req.cookies.userID ? req.cookies.userID : '';
+        res.render('pages/saved', {'savedResults': '', 'cookie': cookie});
+      }
+    });
 }
 
 //Functions handling user login/registration
@@ -139,19 +180,19 @@ function getSaved(req, res) {
 
 function authenticate(req, res) {
   if(!req.body.username){
-    res.render('pages/login', {message: 'Please enter both id and password'});
+    let cookie = req.cookies.userID ? req.cookies.userID : '';
+    res.render('pages/login', {message: 'Please enter both id and password', 'cookie': cookie});
   } else {
     const SQL = `SELECT username, id FROM users WHERE username = '${req.body.username}';`;
     client.query(SQL)
       .then(userData => {
-        console.log(userData);
-        if(userData.rows[0].username === req.body.username){
-          console.log('User Exists');
+        if(userData.rows[0] && userData.rows[0].username === req.body.username){
           res.cookie('userID', userData.rows[0].id).redirect('/saved');
         }
         else {
           //User does not exist
-          res.render('/login', {message: 'Invalid credentials!'});
+          let cookie = req.cookies.userID ? req.cookies.userID : '';
+          res.render('pages/login', {message: 'Invalid username!', 'cookie': cookie});
         }
       });
   }
@@ -162,24 +203,21 @@ function register(req, res) {
     res.status('400');
     res.send('Invalid details!');
   } else {
-    console.log(req.body.username);
     const SELECT = `SELECT COUNT(username) FROM users WHERE username = '${req.body.username}';`;
     const INSERT = 'INSERT INTO users (username) VALUES ($1) ON CONFLICT DO NOTHING RETURNING id;';
-    console.log('Here 1');
     client.query(SELECT)
       .then(result => {
         console.log(`Result: ${result}`);
         if (result.rows[0].count > 0) {
-          console.log('Already Created');
-          res.render('pages/signup-error', {message: 'User Already Exists! Login or register with a different username.'});
+          let cookie = req.cookies.userID ? req.cookies.userID : '';
+          res.render('pages/signup-error', {message: 'User Already Exists! Login or register with a different username.', 'cookie': cookie});
         }
         else {
-          console.log('Creating');
           let newUser = new User(req.body.username);
           let VALUES = [newUser.username];
           client.query(INSERT, VALUES)
-            .then(() =>{
-              res.cookie('userID', result.rows[0].id).redirect('/saved');
+            .then(() => {
+              res.redirect('/login');
             });
         }
       });
@@ -190,13 +228,10 @@ function randomRecipe(req, res) {
   let url = `https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}`;
 
   superagent.get(url).then(recipe => {
-     console.log(recipe.body);
-      let randomRecipe = new Recipe(recipe.body.recipes[0])
-      res.render('pages/recipe_details', {details: randomRecipe});
+    let randomRecipe = new Recipe(recipe.body.recipes[0], recipe.body.recipes[0].id);
+    let cookie = req.cookies.userID ? req.cookies.userID : '';
+    res.render('pages/recipe_details', {details: randomRecipe, 'cookie': cookie});
   }).catch(error => handleError(error));
-     
-  };
-
-
+}
 
 app.listen(PORT, () => console.log(`I know that you came to party baby, baby, baby, baby on port: ${PORT}`));

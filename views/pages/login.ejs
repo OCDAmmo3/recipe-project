@@ -5,6 +5,9 @@
   <body>
     <%- include('../partials/header.ejs') %>
     <main id="sign_in">
+      <% if (message) { %>
+        <h4 id="error"><%= message %></h4>
+      <% } %>
       <form action="/login" method="post">
         <input type="text" id="username" name="username" placeholder="Enter Username" required>
         <input type="submit" class="submit" value="Login">
