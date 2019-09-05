@@ -124,7 +124,10 @@ function createSearch(req, res) {
   }
   if(req.body.glutenIntolerance){
     url = `${url}?intolerances=gluten`;
- }
+  }
+  if(req.body.paleoIntolerance){
+    url = `${url}?diet=paleo`;
+  }
   superagent.get(url)
     .then(searchResults => searchResults.body.results.map(result => new Result(result)))
     .then(results => {
@@ -132,7 +135,7 @@ function createSearch(req, res) {
       return res.render('pages/search', {searchResults: results, 'cookie': cookie});
     })
     .catch(error => handleError(error, res));
-}
+};
 
 function getRecipe(req, res) {
   let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
