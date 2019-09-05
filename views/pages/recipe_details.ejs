@@ -19,7 +19,7 @@
       </form>
     </div>
     <section id="recipe-ingredients">
-      <h4>Ingredients:</h4>
+      <h4 class = "shoppingListHead">Ingredients:</h4>
       <% details.ingredients.forEach(ingr => { %>
       <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %>
         <%if(ingr.measures.metric.amount !== ingr.measures.us.amount){ %>(<%= ingr.measures.metric.amount %>
