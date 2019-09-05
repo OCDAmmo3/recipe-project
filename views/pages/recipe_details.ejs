@@ -10,27 +10,34 @@
     <div id="details">
       <h4>Ready In: <%= details.time %> minutes</h4>
       <h4>Serves: <%= details.servings %></h4>
-      <form action="/recipe/<%= details.recipe_id %>" method="post">
-        <input type="hidden" id="name" name="name" value="<%= details.name %>">
-        <input type="hidden" id="image" name="image_url" value="<%= details.image %>">
-        <input type="hidden" id="time" name="time" value="<%= details.time %>">
-        <input type="hidden" id="servings" name="servings" value="<%= details.servings %>">
-        <input type="submit" class="submit" value="Save Recipe!">
-      </form>
+      <a href="<% details.source %>" target="_blank"><h4>Original Recipe Site</h4></a>
+      <% if (!saved) { %>
+        <form action="/recipe/<%= details.recipe_id %>" method="post">
+          <input type="hidden" id="name" name="name" value="<%= details.name %>">
+          <input type="hidden" id="image" name="image_url" value="<%= details.image %>">
+          <input type="hidden" id="time" name="time" value="<%= details.time %>">
+          <input type="hidden" id="servings" name="servings" value="<%= details.servings %>">
+          <input type="submit" class="submit" value="Save Recipe">
+        </form>
+      <% } %>
+      <% if (saved) { %>
+        <form action="/recipe/<%= details.recipe_id %>" method="post">
+          <input type="hidden" name="_method" value="delete">
+          <input type="submit" class="submit" value="Delete Recipe">
+        </form>
+      <% } %>
     </div>
     <section id="recipe-ingredients">
-      <h4>Ingredients:</h4>
+      <h4 class = "shoppingListHead">Ingredients:</h4>
       <% details.ingredients.forEach(ingr => { %>
-      <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %>
-        <%if(ingr.measures.metric.amount !== ingr.measures.us.amount){ %>(<%= ingr.measures.metric.amount %>
-        <%= ingr.measures.metric.unitShort %>)<% } %> <%= ingr.name %></h5>
+      <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %> <%= ingr.name %></h5>
       <% }) %>
     </section>
     <section id="recipe-instructions">
       <h4>Preparation Instructions:</h4>
       <% details.steps.forEach(step => { %>
       <div class="steps">
-        <%if(details.steps.number !== 0) { %><h5>Step <%= step.number %>:</h5><% } %>
+        <%if(details.steps.number !== 0) { %><h5><%= step.number %></h5><% } %>
         <p><%= step.step %></p>
       </div>
       <% }) %>

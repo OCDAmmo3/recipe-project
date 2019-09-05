@@ -21,12 +21,6 @@ a:hover {
   color: #c4edde;
 }
 
-#searchButton {
-  background-color: rgba(247, 56, 89, .8);
-  padding: 5px;
-  color: white;
-}
-
 #calRange {
   box-sizing: border-box;
 }
@@ -63,19 +57,33 @@ img{
   max-width: 312px;
   max-height: 231px;
 }
-button{
+
+button {
   background-color: rgba(247, 56, 89, .8);
   padding: 5px;
   color: white;
+  width: 100%;
 }
 
-#pageTitle{
+input.submit {
+  border: none;
+  background-color: rgba(247, 56, 89, .8);
+  color: white;
+  width: 100%;
+}
+
+#pageTitle {
   font-size: 1.8rem;
 }
 
+#details h4 {
+  margin: 5px;
+  text-align: center;
+}
+
 #recipe-ingredients {
-  padding: 10px 15px 5px 50px;
-  line-height: .9;
+  padding: 23px 15px 5px 50px;
+  line-height: .89;
   font-family: 'Nanum Pen Script', cursive;
   font-size: 1.7rem;
   color: black;
@@ -93,12 +101,14 @@ button{
 
 #recipe-instructions h4 {
   padding: 5px;
-  font-size: 1.6rem;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
 }
 
 .steps {
   padding: 5px;
-  margin: 10px 0px 5px 0px;
+  padding-bottom: 30px;
+  margin: 10px 0px 30px 0px;
   border-bottom: solid white 1px;
 }
 
@@ -107,8 +117,16 @@ button{
 }
 
 .steps h5 {
+  position: relative;
+  display: flex;
+  padding: 10px;
+  max-width: 30px;
+  justify-content: center;
+  align-content: center;
   margin-bottom: 10px;
   font-size: 1.7rem;
+  background-color: rgba(150, 150, 150, .8);
+  border-radius: 50%;
 }
 
 .steps p {
@@ -118,4 +136,8 @@ button{
 #detailsMain h2 {
   padding: 15px;
   text-align: center;
+}
+
+.shoppingListHead {
+  font-size: 2.5rem;
 }

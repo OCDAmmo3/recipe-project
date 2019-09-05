@@ -8,6 +8,7 @@ require('dotenv').config();
 const superagent = require('superagent');
 const pg = require('pg');
 const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
 
 const client = new pg.Client(process.env.DATABASE_URL);
 const PORT = process.env.PORT || 3000;
@@ -22,6 +23,13 @@ app.use(express.static('public'));
 
 
 //Routes
+app.use(methodOverride((req, res) => {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    let method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 app.use(getJoke);
 app.get('/', (req, res) => {
   let cookie = req.cookies.userID ? req.cookies.userID : '';
@@ -30,6 +38,7 @@ app.get('/', (req, res) => {
 app.post('/search', createSearch);
 app.get('/recipe/:id', getRecipe);
 app.post('/recipe/:id', saveRecipe);
+app.delete('/recipe/:id', deleteRecipe);
 app.get('/random', randomRecipe);
 app.get('/saved', getSaved);
 app.get('/about', (req, res) => {
@@ -127,27 +136,44 @@ function createSearch(req, res) {
 
 function getRecipe(req, res) {
   let url = `https://api.spoonacular.com/recipes/informationBulk?ids=${req.params.id}&apiKey=${process.env.API_KEY}`;
+  let cookie = req.cookies.userID ? req.cookies.userID : '';
+  let userID = parseInt(req.cookies.userID);
+  let SQL = `SELECT COUNT(recipe_id) FROM recipes WHERE user_id = ${userID} AND recipe_id = ${req.params.id};`;
+  let recipeSaved = 0;
 
-  superagent.get(url)
-    .then(recipe => {
-      return new Recipe(recipe.body[0], req.params.id);
-    })
+  client.query(SQL)
     .then(result => {
-      let cookie = req.cookies.userID ? req.cookies.userID : '';
-      res.render('pages/recipe_details', {details: result, 'cookie': cookie});
+      recipeSaved = parseInt(result.rows[0].count);
     })
+    .then(
+      superagent.get(url)
+        .then(recipe => {
+          return new Recipe(recipe.body[0], req.params.id);
+        })
+        .then(result => {
+          if (recipeSaved > 0) {
+            res.render('pages/recipe_details', {details: result, 'cookie': cookie, saved: true});
+          }
+          else {
+            res.render('pages/recipe_details', {details: result, 'cookie': cookie, saved: false});
+          }
+        })
+    )
     .catch(error => handleError(error, res));
-
 }
 
 function saveRecipe(req, res) {
   console.log('Saving');
   let {name, image, time, servings} = req.body;
   let userID = parseInt(req.cookies.userID);
+  console.log(userID);
 
   let SQL = 'INSERT INTO recipes(recipe_id, image, name, time, servings, user_id, timestamp) VALUES ($1, $2, $3, $4, $5, $6, $7);';
   let values = [req.params.id, image, name, time, servings, userID, Date.now()];
 
+  if(isNaN(userID)) {
+    res.render('pages/login', {'message': 'You must be signed in to save books', 'cookie': ''})
+  }
   client.query(SQL, values)
     .then(() => {
       res.redirect(`/saved`);
@@ -156,29 +182,37 @@ function saveRecipe(req, res) {
 
 }
 
+function deleteRecipe(req, res) {
+  let userID = parseInt(req.cookies.userID);
+  let SQL = `DELETE FROM recipes WHERE user_id = ${userID} AND recipe_id = ${req.params.id};`;
+
+  client.query(SQL)
+    .then(result => res.redirect('/saved'))
+    .catch(error => handleError(error, res));
+}
+
 function getSaved(req, res) {
   let userID = parseInt(req.cookies.userID);
-  let SQL = `SELECT recipe_id, image, name, time, servings FROM recipes WHERE user_id = ${userID} ORDER BY timestamp;`;
+  let cookie = req.cookies.userID ? req.cookies.userID : '';
 
   if (!userID) {
-    let cookie = req.cookies.userID ? req.cookies.userID : '';
     res.render('pages/login', {'message': 'Sign In to Save Books', 'cookie': cookie, 'savedResults': ''});
   }
-  client.query(SQL)
-    .then(results => {
-      console.log(results);
-      if (results.rows[0]) {
-        console.log('True');
-
-        let cookie = req.cookies.userID ? req.cookies.userID : '';
-        res.render('pages/saved', {'savedResults': results.rows, 'cookie': cookie});
-      }
-      else {
-        console.log('No Results');
-        let cookie = req.cookies.userID ? req.cookies.userID : '';
-        res.render('pages/saved', {'savedResults': '', 'cookie': cookie});
-      }
-    });
+  else {
+    let SQL = `SELECT recipe_id, image, name, time, servings FROM recipes WHERE user_id = ${userID} ORDER BY timestamp;`;
+    client.query(SQL)
+      .then(results => {
+        console.log(results);
+        if (results.rows[0]) {
+          console.log('True');
+          res.render('pages/saved', {'savedResults': results.rows, 'cookie': cookie});
+        }
+        else {
+          console.log('No Results');
+          res.render('pages/saved', {'savedResults': '', 'cookie': cookie});
+        }
+      });
+  }
 }
 
 //Functions handling user login/registration
@@ -216,7 +250,7 @@ function register(req, res) {
         console.log(`Result: ${result}`);
         if (result.rows[0].count > 0) {
           let cookie = req.cookies.userID ? req.cookies.userID : '';
-          res.render('pages/signup-error', {message: 'User Already Exists! Login or register with a different username.', 'cookie': cookie});
+          res.render('pages/signup-error', {message: 'Username Already Taken', 'cookie': cookie});
         }
         else {
           let newUser = new User(req.body.username);
@@ -236,7 +270,7 @@ function randomRecipe(req, res) {
   superagent.get(url).then(recipe => {
     let randomRecipe = new Recipe(recipe.body.recipes[0], recipe.body.recipes[0].id);
     let cookie = req.cookies.userID ? req.cookies.userID : '';
-    res.render('pages/recipe_details', {details: randomRecipe, 'cookie': cookie});
+    res.redirect(`/recipe/${recipe.body.recipes[0].id}`);
   }).catch(error => handleError(error));
 }
 
