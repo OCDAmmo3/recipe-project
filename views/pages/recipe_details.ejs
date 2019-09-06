@@ -1,52 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('../partials/head.ejs') %>
-
-<body>
-  <%- include('../partials/header.ejs') %>
-  <main id="detailsMain">
-    <h2><%= details.name %></h2>
-    <img src="<%= details.image %>"></img>
-    <div id="details">
-      <h4>Ready In: <%= details.time %> minutes</h4>
-      <h4>Serves: <%= details.servings %></h4>
-      <a href="<%= details.source %>" target="_blank"><h4>Original Recipe Site</h4></a>
-      <% if (!saved) { %>
-        <form action="/recipe/<%= details.recipe_id %>" method="post">
-          <input type="hidden" id="name" name="name" value="<%= details.name %>">
-          <input type="hidden" id="image" name="image_url" value="<%= details.image %>">
-          <input type="hidden" id="time" name="time" value="<%= details.time %>">
-          <input type="hidden" id="servings" name="servings" value="<%= details.servings %>">
-          <input type="submit" class="submit" value="Save Recipe">
-        </form>
-      <% } %>
-      <% if (saved) { %>
-        <form action="/recipe/<%= details.recipe_id %>" method="post">
-          <input type="hidden" name="_method" value="delete">
-          <input type="submit" class="submit" value="Delete Recipe">
-        </form>
-      <% } %>
-    </div>
-    <section id="recipe-ingredients">
-      <h4 class = "shoppingListHead">Ingredients:</h4>
-      <% details.ingredients.forEach(ingr => { %>
-      <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %> <%= ingr.name %></h5>
-      <% }) %>
-    </section>
-    <section id="recipe-instructions">
-      <h4>Preparation Instructions:</h4>
-      <% details.steps.forEach(step => { %>
-      <div class="steps">
-        <%if(details.steps.number !== 0) { %><h5><%= step.number %></h5><% } %>
-        <p><%= step.step %></p>
+  <%- include('../partials/head.ejs') %>
+  <body>
+    <%- include('../partials/header.ejs') %>
+    <main id="detailsMain">
+      <h2><%= details.name %></h2>
+      <img src="<%= details.image %>"></img>
+      <div id="details">
+        <h4>Ready In: <%= details.time %> minutes</h4>
+        <h4>Serves: <%= details.servings %></h4>
+        <a href="<%= details.source %>" target="_blank"><h4>Original Recipe Site</h4></a>
+        <% if (!saved) { %>
+          <form action="/recipe/<%= details.recipe_id %>" method="post">
+            <input type="hidden" id="name" name="name" value="<%= details.name %>">
+            <input type="hidden" id="image" name="image_url" value="<%= details.image %>">
+            <input type="hidden" id="time" name="time" value="<%= details.time %>">
+            <input type="hidden" id="servings" name="servings" value="<%= details.servings %>">
+            <input type="submit" class="submit" value="Save Recipe">
+          </form>
+        <% } %>
+        <% if (saved) { %>
+          <form action="/recipe/<%= details.recipe_id %>" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <input type="submit" class="submit" value="Delete Recipe">
+          </form>
+        <% } %>
       </div>
-      <% }) %>
-    </section>
-  </main>
-  <%- include('../partials/footer.ejs') %>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="/js/app.js"></script>
-</body>
-
+      <section id="recipe-ingredients">
+        <h4 class = "shoppingListHead">Ingredients:</h4>
+        <% details.ingredients.forEach(ingr => { %>
+        <h5><%= ingr.measures.us.amount %> <%= ingr.measures.us.unitShort %> <%= ingr.name %></h5>
+        <% }) %>
+      </section>
+      <section id="recipe-instructions">
+        <h4>Preparation Instructions:</h4>
+        <% details.steps.forEach(step => { %>
+        <div class="steps">
+          <%if(details.steps.number !== 0) { %><h5><%= step.number %></h5><% } %>
+          <p><%= step.step %></p>
+        </div>
+        <% }) %>
+      </section>
+    </main>
+    <%- include('../partials/footer.ejs') %>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="/js/app.js"></script>
+  </body>
 </html>
