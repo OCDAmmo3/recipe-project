@@ -102,9 +102,8 @@ function handleError(error, response) {
 
 function createSearch(req, res) {
   let url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.body.search}`;
-  console.log(req.body);
   if(req.body.dairyIntolerance){
-     url = `${url}&excludeIngredients=dairy`;
+    url = `${url}&excludeIngredients=dairy`;
   }
   if(req.body.glutenIntolerance){
     url = `${url}&intolerances=gluten`;
