@@ -147,6 +147,12 @@ input.submit {
   font-size: 2.5rem;
 }
 
+
+#bigHead{
+  font-family: 'Barriecito', cursive;
+  font-size: 2.3rem;
+}
+
 #search_name {
   position: absolute;
   top: 203px;
