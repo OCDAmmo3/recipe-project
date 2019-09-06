@@ -160,6 +160,7 @@ input.submit {
   height: 60px;
   background-color: rgba(247, 56, 89, .8);
   border-radius: 5px;
+  overflow: hidden;
 }
 
 #saved_name {
@@ -169,10 +170,11 @@ input.submit {
   height: 60px;
   background-color: rgba(247, 56, 89, .8);
   border-radius: 5px;
+  overflow: hidden;
 }
 
 #savedBody main {
-  height: 700px;
+  min-height: 700px;
 }
 
 #savedBody h2 {
