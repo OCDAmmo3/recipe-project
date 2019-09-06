@@ -71,3 +71,7 @@ main {
   flex-direction: column;
   align-content: center;
 }
+
+#resultsPage {
+  min-height: 800px;
+}

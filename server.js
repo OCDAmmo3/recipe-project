@@ -166,7 +166,7 @@ function saveRecipe(req, res) {
   let values = [req.params.id, image_url, name, time, servings, userID, Date.now()];
 
   if(isNaN(userID)) {
-    res.render('pages/login', {'message': 'You must be signed in to save books', 'cookie': ''})
+    res.render('pages/login', {'message': 'You must be signed in to save recipes.', 'cookie': ''})
   }
   else {
     client.query(SQL, values)
