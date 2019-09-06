@@ -58,17 +58,14 @@ main {
   padding: 15px;
 }
 
-#search-form {
+.search-form {
   width: 45%;
 }
 
 #checks {
-  width: 60%;
-  margin: 0 auto;
+  width: 100%;
   margin-bottom: 15px;
-}
-
-#checks label{
-  display: block;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
