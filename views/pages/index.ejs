@@ -5,7 +5,7 @@
     <%- include('../partials/header.ejs') %>
     <main id="searchPage">
       <h2 id="pageTitle">Search</h2>
-      <form id="search-form" action="/search" method="post">
+      <form class="search-form" action="/search" method="post">
         <input class="textInput" type="text" name="search" placeholder="Search for Recipe" required>
         <fieldset class="hidden expanded">
           <h4>Calories Per Serving</h4>
@@ -14,23 +14,23 @@
         <p>
 
         <fieldset id="checks">
-        <label><input type="checkbox" name="dairyIntolerance" value="dairy Free" id="dairy" /> Dairy Free</label>
+        <label><input type="checkbox" name="paleoIntolerance" value="paleo" id="paleo" /> Paleo</label>
+        <label><input type="checkbox" name="veganIntolerance" value="vegan" id="vegan"/> Vegan</label>
         <label><input type="checkbox" name="glutenIntolerance" value="gluten" id="gluten"/> Gluten</label>
         <label><input type="checkbox" name="ketoIntolerance" value="ketogenic" id="keto" /> Ketogenic</label>
-        <label><input type="checkbox" name="paleoIntolerance" value="paleo" id="paleo" /> Paleo</label>
-        <label><input type="checkbox" name="pescatarianIntolerance" value="pescatarian" id="pescatarian"/> Pescatarian</label>
         <label><input type="checkbox" name="vegetarianIntolerance" value="vegetarian" id="vegetarian" /> Vegetarian</label>
-        <label><input type="checkbox" name="veganIntolerance" value="vegan" id="vegan"/> Vegan</label>
+        <label><input type="checkbox" name="dairyIntolerance" value="dairy Free" id="dairy" /> Dairy Free</label>
+        <label><input type="checkbox" name="pescatarianIntolerance" value="pescatarian" id="pescatarian"/> Pescatarian</label>
         </fieldset>
 
         </p>
         <button id="searchButton" type="submit">Search</button>
       </form>
-      <form action="/random" method="GET">
+      <form class="search-form" action="/random" method="GET">
         <button id="random" type="submit">Random Recipe!</button>
       </form>
     </main>
-    <%- include('../partials/footer.ejs') %>
+    <%- include('../partials/footer-fixed.ejs') %>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="/js/app.js"></script>
   </body>

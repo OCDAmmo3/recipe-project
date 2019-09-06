@@ -8,9 +8,7 @@
       <% searchResults.forEach(result => { %>
         <a href="/recipe/<%= result.recipe_id %>"><section id= "results" recipe_id="<%= result.recipe_id %>" class="search_recipe">
           <img src="<%= result.image_url %>"/>
-          <h3> <%= result.name %> </h3> 
-          <button class="selectButton">More Details</button>
-          
+          <h3 id="search_name"> <%= result.name %> </h3> 
         </section></a>
       <% }) %>
     </main>

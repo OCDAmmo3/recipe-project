@@ -28,7 +28,19 @@ header {
 }
 
 footer {
-  position: fixed;
+  /* position: absolute; */
+  padding: 10px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  color: #c4edde;
+  background-color: rgba(247, 56, 89, .8);
+  font-size: .8rem;
+  line-height: 1.1;
+}
+
+#footer-fixed {
+  position: absolute;
   padding: 10px;
   bottom: 0px;
   left: 0px;
@@ -45,6 +57,11 @@ h1 {
   margin-left: 15px;
 }
 
+nav {
+  z-index: 100;
+}
+
 .ingredients {
   font-family: 'Nanum Pen Script', cursive;
 }
+
