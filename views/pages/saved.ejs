@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <%- include('../partials/head.ejs') %>
-  <body>
+  <body id="savedBody">
     <%- include('../partials/header.ejs') %>
     <main>
       <h2 id="pageTitle">Saved Recipes</h2>
@@ -13,11 +13,7 @@
         <% savedResults.forEach(result => { %>
           <a href="/recipe/<%= result.recipe_id %>"><section id= "results" recipe_id="<%= result.recipe_id %>" class="search_recipe">
             <img src="<%= result.image %>"/>
-            <h3> <%= result.name %> </h3> 
-            <h5> Cook Time: <%= result.time  %> minutes</h5>
-            <p> Serves <%= result.servings  %> </p>
-            <button class="selectButton">More Details</button>
-            
+            <h3 id="saved_name"> <%= result.name %> </h3>             
           </section></a>
         <% }) %>
       <% } %>
