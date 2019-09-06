@@ -1,5 +1,5 @@
 /* font-family: 'Nanum Pen Script', cursive;  INGREDIENTS
-font-family: 'Barriecito', cursive;  HEADER
+font-family: 'Hind Siliguri', sans-serif;  HEADER
 font-family: 'Tinos', serif;  TEXT CONTENT 
 font-family: 'Sacramento', cursive;   ABOUT US NAMES
 */
@@ -52,7 +52,6 @@ footer {
 }
 
 h1 {
-  font-family: 'Barriecito', cursive;
   font-size: 2.5rem;
   margin-left: 15px;
 }

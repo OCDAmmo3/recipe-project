@@ -3,6 +3,10 @@
   margin-top: 10px;
   margin-left: 15px;
   font-size: 1.2rem;
+  align-self: center;
+  font-family: 'Hind Siliguri', sans-serif;
+  line-height: 1.1;
+  font-style: italic;
 }
 
 #hamburgerbutton {
@@ -195,3 +199,9 @@ input.submit {
   margin: 15px 0px 15px 0px;
 }
 
+#headerImage {
+  box-shadow: none;
+  margin-top: 0px;
+  width: 100px;
+  height: auto;
+}
